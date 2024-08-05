@@ -15,7 +15,7 @@ Session(app)
 db = SQL("sqlite:///app.db")
 
 @app.route("/")
-def home():
+def index():
     return render_template("index.html")
 
 @app.route("/login", methods=["GET", "POST"]) 
@@ -23,7 +23,6 @@ def login():
     if request.method == "GET":
         return render_template("login.html")
     else:
-        # TODO
         session.clear()
 
         # Get data
@@ -31,14 +30,22 @@ def login():
         password = request.form.get("password")
         account = db.execute("SELECT * FROM users WHERE name = ?", name)   
         # Check for Error
-        if (len(account) == 0 or not check_password_hash(account[0]["hash"], password)):
+        if (len(account)) == 0:
             return render_template("login.html", error="Account doesn't exist")  
+        if not check_password_hash(account[0]["hash"], password):
+            return render_template("login.html", error="Incorrect password")
         # Log in
         session["name"] = name
 
         #check if user can change page from browser
         return redirect("/")
     
+# Only add logout in home
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/login")
+
 @app.route("/register", methods=["GET","POST"])
 def register():
     if request.method == "GET":
@@ -50,6 +57,8 @@ def register():
         account = db.execute("SELECT * FROM users WHERE name = ?", name)
         hash = generate_password_hash(password)
         # Check for error
+        if not name or not password or not confirmation:
+            return render_template("register.html", error="Invalid")
         if password != confirmation:
             return render_template("register.html", error="Password and confirm password must be the same")
         
