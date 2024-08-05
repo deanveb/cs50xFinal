@@ -1,11 +1,16 @@
 {% extends "layout.html" %}
 
+{% block extra %}
+  <link rel="stylesheet" href="/static/login/login.css">
+{% endblock extra %}
+
 {% block title %}
     login
 {% endblock title %}
 
 {% block body %}
-    <form action="/login" method="post">
+  <form action="/login" method="post" id="login">
+    <h1>Login</h1>
     <input type="text" placeholder="Name" name="name" autofocus autocomplete="off" required />
     <br>
     <input type="text" placeholder="Password" name="password" autofocus autocomplete="off" required />
@@ -13,5 +18,5 @@
     <input type="text" placeholder="Confirmation" name="confirmation" autofocus autocomplete="off" required />
     <br>
     <button type="submit">Log in</button>
-    </form>
+  </form>
 {% endblock body %}
