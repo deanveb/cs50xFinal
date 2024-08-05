@@ -17,7 +17,7 @@
         "editor.defaultFormatter": "monosans.djlint",
         "editor.detectIndentation": false,
         "editor.linkedEditing": true,
-        "editor.tabSize": 2
+        "editor.tabSize": 4
     },
     // Add specific formatting rules as needed, e.g.:
     "djlint.enableLinting": true,
@@ -28,5 +28,6 @@
     "djlint.lineBreakAfterMultilineTag": false,
     "djlint.maxBlankLines": 2,
     "djlint.maxLineLength": 100,
-    "djlint.maxAttributeLength": 100
+    "djlint.maxAttributeLength": 100,
+    "djlint.ignore": ["D004", "D018"]
 }

@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block extra %}
+    <link rel="stylesheet" href="/static/login/login.css">
+{% endblock extra %}
+
+{% block title %}Register{% endblock title %}
+
+{% block body %}
+	<form action="/register" method="post">
+        <input type="text" placeholder="Name" name="name" autofocus autocomplete="off" required />
+        <input type="password" placeholder="Password" name="password" autocomplete="off" required />
+        <input type="password" placeholder="Confirm Password" name="confirmation" autocomplete="off" required />
+        <button type="submit">Register</button>
+        <p>{{ error }}</p>
+    </form>
+{% endblock body %}
