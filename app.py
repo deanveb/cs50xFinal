@@ -14,6 +14,7 @@ Session(app)
 
 db = SQL("sqlite:///app.db")
 
+@login_required
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -69,3 +70,7 @@ def register():
         db.execute("INSERT INTO users (name, hash) VALUES(?, ?)", name, hash)
 
         return redirect("/login")
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
