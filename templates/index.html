@@ -8,9 +8,20 @@
     <main>
         <div id="sidebar">
             <h1 class="border-bottom">Tables</h1>
+            <!-- Search bar-->
+            <!-- Add collapse -->
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#Add" aria-expanded="false" aria-controls="collapseExample">
+                Add table
+            </button>
+            <div class="collapse" id="Add">
+                <form action="/add" method="get" class="ms-auto">
+                    <input class="form-control form-control-sm" type="file" accept=".db" required>
+                    <button id="add-btn" class="btn btn-outline-primary btn-sm" type="Submit">Submit</button>
+                </form>
+            </div>
+            <!-- database list -->
         </div>
         <div id="workspace">
-
         </div>
         <div id="sidebar-properties">
             <h1 class="border-bottom">Inspector</h1>

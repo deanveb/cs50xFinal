@@ -3,8 +3,6 @@ from flask import Flask, render_template, redirect, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helper import login_required
-
 # export FLASK_DEBUG=1 && flask run
 app = Flask("__name__")
 
@@ -14,11 +12,15 @@ Session(app)
 
 db = SQL("sqlite:///app.db")
 
-@login_required
 @app.route("/")
 def index():
-    
-    return render_template("index.html")
+    try:
+        name = session["name"]
+    except KeyError:
+        return redirect("/login")
+    # Load tables
+    # display tables
+    return render_template("index.html", username=name)
 
 @app.route("/login", methods=["GET", "POST"]) 
 def login():
@@ -75,3 +77,8 @@ def register():
 @app.route("/about")
 def about():
     return render_template("about.html")
+
+@app.route("/import")
+def add():
+    # select name from sqlite_master where type = 'table';
+    return redirect("/")
