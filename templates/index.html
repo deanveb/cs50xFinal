@@ -14,6 +14,23 @@
                 Add table
             </button>
             <!-- database list -->
+                {% for name in db_name %}
+                <div>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#{{ loop.index }}" aria-expanded="false" aria-controls="{{ loop.index }}">
+                        {{ name }}
+                    </button>
+                    <div class="collapse" id="{{ loop.index }}">
+                        <div class="card card-body">
+                            {% for table in tables %}
+                                {% for name in table %}
+                                    <button> {{ name["name"] }} </button>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}    
+            </table>
         </div>
         <div id="workspace">
         </div>

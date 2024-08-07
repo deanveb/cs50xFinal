@@ -2,6 +2,7 @@ from cs50 import SQL
 from flask import Flask, render_template, redirect, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
+from os import listdir
 
 # export FLASK_DEBUG=1 && flask run
 app = Flask("__name__")
@@ -19,8 +20,20 @@ def index():
     except KeyError:
         return redirect("/login")
     # Load tables
+    db_name = []
+    tables = []
+    for i in listdir("/home/deanv/Project/cs50/Final Project/database"):
+        subdb = SQL("sqlite:///"+ "database/" + i)
+        db_name.append(i)
+        tables.append(subdb.execute("SELECT name FROM sqlite_master WHERE type ='table'"))
+        
+    # select name from sqlite_master where type = 'table';
     # display tables
-    return render_template("index.html", username=name)
+    print(tables)
+    return render_template("index.html",
+                           username=name,
+                           db_name=db_name,
+                           tables=tables)
 
 @app.route("/login", methods=["GET", "POST"]) 
 def login():
@@ -80,6 +93,5 @@ def about():
 
 @app.route("/import")
 def add():
-    # select name from sqlite_master where type = 'table';
     # https://stackoverflow.com/questions/65218421/send-data-returned-from-javascript-function-to-flask-backend
     return redirect("/")
