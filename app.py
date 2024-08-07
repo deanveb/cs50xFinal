@@ -81,4 +81,5 @@ def about():
 @app.route("/import")
 def add():
     # select name from sqlite_master where type = 'table';
+    # https://stackoverflow.com/questions/65218421/send-data-returned-from-javascript-function-to-flask-backend
     return redirect("/")

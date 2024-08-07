@@ -16,4 +16,14 @@ main {
 
 #sidebar-properties {
   border-left: 1px solid rgba(0, 0, 0, 0.26);
+}
+
+.nav-btn {
+  border: none;
+  margin-top: 13%;
+  background-color: #f8f9fa;
+}
+
+.nav-btn:hover {
+  background-color: lightgrey;
 }/*# sourceMappingURL=app.css.map */

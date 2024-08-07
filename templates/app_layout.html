@@ -20,7 +20,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/">Import</a>
+                        <button class="nav-btn" onclick="add.showModal()">Import</button>
                     </li>
                     <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/">Export</a>
@@ -37,6 +37,14 @@
                 </div>
             </div>
         </nav>
+        <!--Add tables-->
+        <dialog id="add">
+            <button class="btn btn-outline-danger btn-sm mb-2" onclick="add.close()">X</button>
+            <form action="/import" method="get" class="form-control">
+                <input class="form-control" type="file" required name="db">
+                <button type="Submit" class="btn btn-primary">Submit</button>
+            </form>
+        </dialog>
         {% block body %}{% endblock body %}
     </body>
 </html>
