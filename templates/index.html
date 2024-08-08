@@ -2,6 +2,7 @@
 
 {% block extra %}
     <link rel="stylesheet" href="/static/app/app.css">
+    <script src="/static/app/app.js"></script>
 {% endblock extra %}
 
 {% block body %}
@@ -14,6 +15,7 @@
                 Add table
             </button>
             <!-- database list -->
+            {% set ns = namespace(counter=0) %}
             {% for name in db_name %}
                 <div class="dbs d-flex flex-column">
                     <button class="border-bottom bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#{{ loop.index }}" aria-expanded="false" aria-controls="{{ loop.index }}">
@@ -22,7 +24,8 @@
                     <div class="collapse" id="{{ loop.index }}">
                         <div class="card card-body">
                             {% for table in tables[loop.index - 1] %}
-                                <button> {{ table["name"] }} </button>
+                                <button onclick="addTable({{ datas[ns.counter] }});"> {{ table["name"] }} </button>
+                                {% set ns.counter = ns.counter + 1 %}
                             {% endfor %}
                         </div>
                     </div>

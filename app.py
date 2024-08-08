@@ -22,18 +22,21 @@ def index():
     # Load tables
     db_name = []
     tables = []
+    datas = []
     for i in listdir("/home/deanv/Project/cs50/Final Project/database"):
         subdb = SQL("sqlite:///"+ "database/" + i)
         db_name.append(i)
         tables.append(subdb.execute("SELECT name FROM sqlite_master WHERE type ='table'"))
-        
-    # select name from sqlite_master where type = 'table';
+        for table in tables[-1]:
+            datas.append(subdb.execute("SELECT * FROM ?", table["name"]))
+
     # display tables
-    print(tables)
+    print(datas)
     return render_template("index.html",
                            username=name,
                            db_name=db_name,
-                           tables=tables)
+                           tables=tables,
+                           datas=datas)
 
 @app.route("/login", methods=["GET", "POST"]) 
 def login():
