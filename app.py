@@ -31,7 +31,6 @@ def index():
             datas.append(subdb.execute("SELECT * FROM ?", table["name"]))
 
     # display tables
-    print(datas)
     return render_template("index.html",
                            username=name,
                            db_name=db_name,

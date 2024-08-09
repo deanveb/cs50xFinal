@@ -24,7 +24,7 @@
                     <div class="collapse" id="{{ loop.index }}">
                         <div class="card card-body">
                             {% for table in tables[loop.index - 1] %}
-                                <button onclick="addTable({{ datas[ns.counter] }});"> {{ table["name"] }} </button>
+                                <button onclick="addTable({{ datas[ns.counter] }}, '{{ table['name'] }}');"> {{ table["name"] }} </button>
                                 {% set ns.counter = ns.counter + 1 %}
                             {% endfor %}
                         </div>
