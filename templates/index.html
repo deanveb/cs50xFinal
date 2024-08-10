@@ -9,11 +9,7 @@
     <main>
         <div id="sidebar">
             <h1 class="border-bottom">Tables</h1>
-            <!-- Search bar-->
-            <!-- Add collapse -->
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#Add" aria-expanded="false" aria-controls="collapseExample">
-                Add table
-            </button>
+            <!-- Search bar(maybe)-->
             <!-- database list -->
             {% set ns = namespace(counter=0) %}
             {% for name in db_name %}
@@ -33,10 +29,10 @@
             {% endfor %}    
         </div>
         <div id="workspace">
-            
         </div>
         <div id="sidebar-properties">
             <h1 class="border-bottom">Inspector</h1>
+            
         </div>
     </main>
 {% endblock body %}

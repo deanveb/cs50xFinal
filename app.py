@@ -3,11 +3,9 @@ from flask import Flask, render_template, redirect, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from os import listdir
-
 # export FLASK_DEBUG=1 && flask run
+
 app = Flask("__name__")
-if __name__ == "__app__":
-    app.run(debug=True)
 
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"

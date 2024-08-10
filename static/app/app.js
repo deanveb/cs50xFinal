@@ -1,16 +1,39 @@
 // TODO: Save feature
-function addTable(list, name) {
+function save(element) {
+    localStorage.setItem("Saved" + element.id, element.outerHTML);
+}
+
+// Load element on refresh
+document.addEventListener("DOMContentLoaded", e => {
+    saved_data = Object.keys(localStorage);
+    
+    for (i of saved_data){
+        if (i.includes("Saved")) {
+            let div = document.createElement("div");
+            div.innerHTML = localStorage.getItem(i);
+            div.style.position = "absolute";
+            dragElement(div);
+            document.getElementById("workspace").appendChild(div);
+        }
+    }
+})
+
+function addTable(data, name) {
+    if (localStorage.getItem("Saved" + name)) {
+        window.alert("Cannot have more than 1 table");
+        return;
+    }
     const body = document.getElementById("workspace");
     const table = document.createElement("table");
+    // Singleton
     table.id = name;
     table.setAttribute("border", "1");
     table.style.cssText = "position:absolute;"
-
     // Create table head
     let frow = document.createElement("tr");
     frow.style.cssText = "-webkit-user-select: none; -ms-user-select: none; user-select: none; cursor:move;";
     frow.id = table.id + "header";
-    for (let head in list[0]) {
+    for (let head in data[0]) {
         let th = document.createElement("th");
         th.style.border = "1px solid black";   
         let text = document.createTextNode(head);
@@ -20,14 +43,14 @@ function addTable(list, name) {
     table.appendChild(frow);
 
     // Display table datas
-    for (let data_index in list) {
+    for (let data_index in data) {
         let tr = document.createElement("tr");
-        for (let head in list[data_index]) {
+        for (let head in data[data_index]) {
             let td = document.createElement("td");
             td.style.cssText = "-webkit-user-select: none;  -ms-user-select: none; user-select: none;"
             td.style.border = "1px solid black";   
             // To set max characters
-            let content = list[data_index][head]
+            let content = data[data_index][head]
             let text = document.createTextNode(content);
             
             td.appendChild(text);
@@ -37,7 +60,13 @@ function addTable(list, name) {
     }
 
     body.appendChild(table);
+    save(table)
+	// Open inspector menu
     dragElement(document.getElementById(table.id))
+	table.oncontextmenu = function(e) {
+		e.preventDefault();
+		
+	}
 }
 
 // Source: https://www.w3schools.com/howto/howto_js_draggable.asp
