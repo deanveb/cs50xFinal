@@ -6,6 +6,8 @@ from os import listdir
 
 # export FLASK_DEBUG=1 && flask run
 app = Flask("__name__")
+if __name__ == "__app__":
+    app.run(debug=True)
 
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"

@@ -4,7 +4,7 @@ function addTable(list, name) {
     const table = document.createElement("table");
     table.id = name;
     table.setAttribute("border", "1");
-    table.style.cssText = "position:absolute; z-index = 0;"
+    table.style.cssText = "position:absolute;"
 
     // Create table head
     let frow = document.createElement("tr");

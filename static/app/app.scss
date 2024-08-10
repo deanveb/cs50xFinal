@@ -1,10 +1,14 @@
 main {
     display: grid;
     grid-template-columns: 1fr 3fr 1fr;
+    grid-template-areas: 'sidebar workspace sidebar-properties';
+    z-index: 10;
 }
 
 #sidebar, #sidebar-properties {
     height: 100vh;
+    position: relative;
+    z-index: 10;
     h1 {
         text-align: center;
     }
@@ -12,12 +16,20 @@ main {
 
 #sidebar {
     border-right: 1px solid rgba(0, 0, 0, 0.26);
+    grid-area: 'sidebar';
 }
 
 #sidebar-properties {
     border-left: 1px solid rgba(0, 0, 0, 0.26);    
+    grid-area: 'sidebar-properties';
 }
 
+#workspace {
+    grid-area: 'workspace';
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+}
 .nav-btn {
     border: none;
     margin-top: 13%;
