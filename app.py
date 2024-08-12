@@ -3,6 +3,7 @@ from flask import Flask, render_template, redirect, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from os import listdir
+
 # export FLASK_DEBUG=1 && flask run
 
 app = Flask("__name__")

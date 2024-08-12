@@ -8,31 +8,20 @@
 {% block body %}
     <main>
         <div id="sidebar">
-            <h1 class="border-bottom">Tables</h1>
-            <!-- Search bar(maybe)-->
-            <!-- database list -->
-            {% set ns = namespace(counter=0) %}
-            {% for name in db_name %}
-                <div class="dbs d-flex flex-column">
-                    <button class="border-bottom bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#{{ loop.index }}" aria-expanded="false" aria-controls="{{ loop.index }}">
-                        {{ name }} <span><div class="text-end">V</div></span>
-                    </button>
-                    <div class="collapse" id="{{ loop.index }}">
-                        <div class="card card-body">
-                            {% for table in tables[loop.index - 1] %}
-                                <button onclick="addTable({{ datas[ns.counter] }}, '{{ table['name'] }}');"> {{ table["name"] }} </button>
-                                {% set ns.counter = ns.counter + 1 %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}    
+            {% include "index-sidebar.html" %}
         </div>
         <div id="workspace">
         </div>
         <div id="sidebar-properties">
+            <!-- {% include "index-sidebar-properties.html" %} -->
             <h1 class="border-bottom">Inspector</h1>
-            
+            <div id="properties">
+                
+            </div>
+            <div>
+                <button onclick="ClearTable()">Clear</button>
+                <button>Filter</button>
+            </div>
         </div>
     </main>
 {% endblock body %}

@@ -1,0 +1,28 @@
+<h1 class="border-bottom">Tables</h1>
+<!-- Search bar(maybe)-->
+<!-- database list -->
+{% set ns = namespace(counter=0) %}
+{% for name in db_name %}
+    <div class="dbs d-flex flex-column">
+        <button class="border-bottom bg-white"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#{{ loop.index }}"
+                aria-expanded="false"
+                aria-controls="{{ loop.index }}">
+            {{ name }} <span>
+            <div class="text-end">V</div>
+        </span>
+    </button>
+    <div class="collapse" id="{{ loop.index }}">
+        <div class="card card-body">
+            {% for table in tables[loop.index - 1] %}
+                <button onclick="addTable({{ datas[ns.counter] }}, '{{ table['name'] }}');">
+                    {{ table["name"] }}
+                </button>
+                {% set ns.counter = ns.counter + 1 %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endfor %}

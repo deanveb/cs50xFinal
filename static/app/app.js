@@ -13,10 +13,16 @@ document.addEventListener("DOMContentLoaded", e => {
             div.innerHTML = localStorage.getItem(i);
             div.style.position = "absolute";
             dragElement(div);
+            Selectable(div)
             document.getElementById("workspace").appendChild(div);
         }
     }
 })
+
+function ClearTable() {
+	localStorage.clear();	
+	location.reload();
+}
 
 function addTable(data, name) {
     if (localStorage.getItem("Saved" + name)) {
@@ -25,9 +31,9 @@ function addTable(data, name) {
     }
     const body = document.getElementById("workspace");
     const table = document.createElement("table");
+	const div = document.createElement("div");
     // Singleton
     table.id = name;
-    table.setAttribute("border", "1");
     table.style.cssText = "position:absolute;"
     // Create table head
     let frow = document.createElement("tr");
@@ -58,15 +64,19 @@ function addTable(data, name) {
         }
         table.appendChild(tr);
     }
-
-    body.appendChild(table);
+	div.appendChild(table);
+    body.appendChild(div);
     save(table)
 	// Open inspector menu
-    dragElement(document.getElementById(table.id))
-	table.oncontextmenu = function(e) {
-		e.preventDefault();
-		
-	}
+    dragElement(document.getElementById(table.id));
+    // Make table selectable
+    Selectable(table);
+}
+
+function Selectable(elem) {
+    elem.oncontextmenu = e => {
+        e.preventDefault();
+    }
 }
 
 // Source: https://www.w3schools.com/howto/howto_js_draggable.asp
