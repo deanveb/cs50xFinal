@@ -13,7 +13,6 @@ function saving() {
 // Load element on refresh
 document.addEventListener("DOMContentLoaded", e => {
     saved_data = Object.keys(localStorage);
-    
     for (i of saved_data){
         if (i.includes("Saved")) {
             let div = document.createElement("div");
@@ -21,7 +20,7 @@ document.addEventListener("DOMContentLoaded", e => {
             div.style.position = "absolute";
             const table = div.childNodes[0];
             dragElement(table);
-            Selectable(table)
+            Selectable(table);
             document.getElementById("workspace").appendChild(table);
         }
     }
@@ -78,10 +77,37 @@ function addTable(data, name) {
     Selectable(table);
 }
 
+var current_inspector_id = "";
+
 function Selectable(elem) {
     elem.oncontextmenu = e => {
         e.preventDefault();
-        
+        if (current_inspector_id != elem.id) {
+            const properties = document.getElementById("properties");
+            // Clear properties if not empty
+            const div = document.createElement("div");
+            div.style.cssText = "display: flex; flex-direction: column;";
+            
+            const head = elem.firstChild.firstChild.children;
+            
+            for (let i = 0; i < head.length; i++) {
+                
+                let p = document.createElement("p");
+                p.innerHTML = head.item(i).innerHTML;
+                p.style.cssText = "display: inline;"
+
+                let button = document.createElement("button");
+                button.innerHTML = "Delete";
+                button.style.cssText = "width: fit-content;"
+
+                div.appendChild(p);
+                div.appendChild(button);
+            }
+            
+            current_inspector_id = elem.id;
+            console.log(current_inspector_id, elem.id);
+            properties.appendChild(div);
+        }
     }
 }
 
