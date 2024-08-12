@@ -1,6 +1,13 @@
-// TODO: Save feature
+// TODO: Unsaved content warning
 function save(element) {
     localStorage.setItem("Saved" + element.id, element.outerHTML);
+}
+
+function saving() {
+    const workspace = document.getElementById("workspace");
+    for (let i = 0; i < workspace.children.length; i++) {
+        save(workspace.children.item(i));
+    }
 }
 
 // Load element on refresh
@@ -12,9 +19,10 @@ document.addEventListener("DOMContentLoaded", e => {
             let div = document.createElement("div");
             div.innerHTML = localStorage.getItem(i);
             div.style.position = "absolute";
-            dragElement(div);
-            Selectable(div)
-            document.getElementById("workspace").appendChild(div);
+            const table = div.childNodes[0];
+            dragElement(table);
+            Selectable(table)
+            document.getElementById("workspace").appendChild(table);
         }
     }
 })
@@ -31,7 +39,6 @@ function addTable(data, name) {
     }
     const body = document.getElementById("workspace");
     const table = document.createElement("table");
-	const div = document.createElement("div");
     // Singleton
     table.id = name;
     table.style.cssText = "position:absolute;"
@@ -64,9 +71,7 @@ function addTable(data, name) {
         }
         table.appendChild(tr);
     }
-	div.appendChild(table);
-    body.appendChild(div);
-    save(table)
+    body.appendChild(table);
 	// Open inspector menu
     dragElement(document.getElementById(table.id));
     // Make table selectable
@@ -76,6 +81,7 @@ function addTable(data, name) {
 function Selectable(elem) {
     elem.oncontextmenu = e => {
         e.preventDefault();
+        
     }
 }
 
