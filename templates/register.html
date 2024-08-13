@@ -5,7 +5,8 @@
 {% endblock extra %}
 
 {% block body %}
-	<form action="/register" method="post">
+	<form action="/register" method="post" id="login">
+        <h1>Register</h1>
         <input type="text" placeholder="Name" name="name" autofocus autocomplete="off" required />
         <input type="password" placeholder="Password" name="password" autocomplete="off" required />
         <input type="password" placeholder="Confirm Password" name="confirmation" autocomplete="off" required />

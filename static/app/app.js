@@ -99,11 +99,14 @@ function Selectable(elem) {
                 section.innerHTML = head.item(i).innerHTML;
                 section.style.cssText = "width: fit-content; margin: 5px;"
 
-                let button = document.createElement("button");
-                button.innerHTML = "Delete";
-                button.style.cssText = "width: fit-content; margin: 5px;"
+                let visibility = document.createElement("button");
+                visibility.innerHTML = "eye";
+                a = document.createElement("a");
+                a.style.cssText = "width: fit-content; margin: 5px;";
+                a.appendChild(visibility);
+                a.setAttribute("href", "/toggle_visibility");
+                section.appendChild(a);
 
-                section.appendChild(button);
                 div.appendChild(section);
             }
             

@@ -98,3 +98,4 @@ def about():
 def add():
     # https://stackoverflow.com/questions/65218421/send-data-returned-from-javascript-function-to-flask-backend
     return redirect("/")
+
