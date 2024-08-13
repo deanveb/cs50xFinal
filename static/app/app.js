@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", e => {
         if (i.includes("Saved")) {
             let div = document.createElement("div");
             div.innerHTML = localStorage.getItem(i);
-            div.style.position = "absolute";
             const table = div.childNodes[0];
             dragElement(table);
             Selectable(table);
@@ -36,8 +35,10 @@ function addTable(data, name) {
         window.alert("Cannot have more than 1 table");
         return;
     }
-    const body = document.getElementById("workspace");
+    const workspace = document.getElementById("workspace");
     const table = document.createElement("table");
+    const tbody = document.createElement("tbody");
+    table.appendChild(tbody);
     // Singleton
     table.id = name;
     table.style.cssText = "position:absolute;"
@@ -52,7 +53,7 @@ function addTable(data, name) {
         th.appendChild(text);
         frow.appendChild(th);
     }
-    table.appendChild(frow);
+    tbody.appendChild(frow);
 
     // Display table datas
     for (let data_index in data) {
@@ -68,13 +69,13 @@ function addTable(data, name) {
             td.appendChild(text);
             tr.appendChild(td);
         }
-        table.appendChild(tr);
+        tbody.appendChild(tr);
     }
-    body.appendChild(table);
-	// Open inspector menu
-    dragElement(document.getElementById(table.id));
+    
     // Make table selectable
     Selectable(table);
+    dragElement(table);
+    workspace.appendChild(table);
 }
 
 var current_inspector_id = "";
@@ -82,9 +83,11 @@ var current_inspector_id = "";
 function Selectable(elem) {
     elem.oncontextmenu = e => {
         e.preventDefault();
+        console.log(current_inspector_id);
         if (current_inspector_id != elem.id) {
             const properties = document.getElementById("properties");
-            // Clear properties if not empty
+            // Delete all properties' children
+            properties.innerHTML = "";
             const div = document.createElement("div");
             div.style.cssText = "display: flex; flex-direction: column;";
             
@@ -92,16 +95,16 @@ function Selectable(elem) {
             
             for (let i = 0; i < head.length; i++) {
                 
-                let p = document.createElement("p");
-                p.innerHTML = head.item(i).innerHTML;
-                p.style.cssText = "display: inline;"
+                let section = document.createElement("section");
+                section.innerHTML = head.item(i).innerHTML;
+                section.style.cssText = "width: fit-content; margin: 5px;"
 
                 let button = document.createElement("button");
                 button.innerHTML = "Delete";
-                button.style.cssText = "width: fit-content;"
+                button.style.cssText = "width: fit-content; margin: 5px;"
 
-                div.appendChild(p);
-                div.appendChild(button);
+                section.appendChild(button);
+                div.appendChild(section);
             }
             
             current_inspector_id = elem.id;
