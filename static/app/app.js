@@ -78,45 +78,6 @@ function addTable(data, name) {
     workspace.appendChild(table);
 }
 
-var current_inspector_id = "";
-
-function Selectable(elem) {
-    elem.oncontextmenu = e => {
-        e.preventDefault();
-        console.log(current_inspector_id);
-        if (current_inspector_id != elem.id) {
-            const properties = document.getElementById("properties");
-            // Delete all properties' children
-            properties.innerHTML = "";
-            const div = document.createElement("div");
-            div.style.cssText = "display: flex; flex-direction: column;";
-            
-            const head = elem.firstChild.firstChild.children;
-            
-            for (let i = 0; i < head.length; i++) {
-                
-                let section = document.createElement("section");
-                section.innerHTML = head.item(i).innerHTML;
-                section.style.cssText = "width: fit-content; margin: 5px;"
-
-                let visibility = document.createElement("button");
-                visibility.innerHTML = "eye";
-                a = document.createElement("a");
-                a.style.cssText = "width: fit-content; margin: 5px;";
-                a.appendChild(visibility);
-                a.setAttribute("href", "/toggle_visibility");
-                section.appendChild(a);
-
-                div.appendChild(section);
-            }
-            
-            current_inspector_id = elem.id;
-            console.log(current_inspector_id, elem.id);
-            properties.appendChild(div);
-        }
-    }
-}
-
 // Source: https://www.w3schools.com/howto/howto_js_draggable.asp
 function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -157,4 +118,64 @@ function dragElement(elmnt) {
     document.onmouseup = null;
     document.onmousemove = null;
   }
+}
+
+var current_inspector_id = "";
+
+function Selectable(elem) {
+    elem.oncontextmenu = e => {
+        e.preventDefault();
+        if (current_inspector_id != elem.id) {
+            const properties = document.getElementById("properties");
+            // Delete all properties' children
+            properties.innerHTML = "";
+            const div = document.createElement("div");
+            div.style.cssText = "display: flex; flex-direction: column;";
+            
+            const head = elem.firstChild.firstChild.children;
+            
+            for (let i = 0; i < head.length; i++) {
+                
+                let section = document.createElement("section");
+                section.innerHTML = head.item(i).innerHTML;
+                section.style.cssText = "width: fit-content; margin: 5px;"
+
+                let visibility = document.createElement("button");
+                visibility.innerHTML = "hide";
+                visibility.id = "vbutton" + i.toString();
+                visibility.style.cssText = "margin: 5px;"
+                visibility.setAttribute("onclick", `toggle_visibility(${i}, ${elem.id});`)
+                section.appendChild(visibility);
+
+                div.appendChild(section);
+            }
+            
+            current_inspector_id = elem.id;
+            properties.appendChild(div);
+        }
+    }
+}
+
+function toggle_visibility(index, table) {
+    let button = document.getElementById("vbutton" + index.toString());
+    if (button.innerHTML === "hide") {
+        rows = table.firstChild.children;
+        for (i of rows) {
+            let target = i.children.item(index);
+            target.style.display = "none";
+        }
+        button.innerHTML = "show";
+    }
+    else {
+        rows = table.firstChild.children;
+        for (i of rows) {
+            let target = i.children.item(index);
+            target.style.display = "";
+        }
+        button.innerHTML = "hide";
+    }
+}
+
+function removeFromWorkspace(table) {
+    document.getElementById(table.id).remove();
 }

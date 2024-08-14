@@ -2,7 +2,7 @@
 
 {% block extra %}
     <link rel="stylesheet" href="/static/app/app.css">
-    <script src="/static/app/app.js"></script>
+    <script src="/static/app/app.js" ></script>
 {% endblock extra %}
 
 {% block body %}
@@ -15,13 +15,11 @@
         <div id="sidebar-properties">
             <!-- {% include "index-sidebar-properties.html" %} -->
             <h1 class="border-bottom">Inspector</h1>
-            <div id="properties">
-                
-            </div>
-            <div>
+            <div id="buttons">
                 <button onclick="ClearTable()">Clear</button>
                 <button>Filter</button>
             </div>
+            <div id="properties"></div>
         </div>
     </main>
 {% endblock body %}

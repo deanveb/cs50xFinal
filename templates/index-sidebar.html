@@ -18,9 +18,16 @@
     <div class="collapse" id="{{ loop.index }}">
         <div class="card card-body">
             {% for table in tables[loop.index - 1] %}
-                <button onclick="addTable({{ datas[ns.counter] }}, '{{ table['name'] }}');">
-                    {{ table["name"] }}
-                </button>
+                <div>
+                    <button onclick="addTable({{ datas[ns.counter] }}, '{{ table['name'] }}');">
+                        {% if table["name"]|length > 16 %}
+                            {{ table["name"][:14] + ".." }}
+                        {% else %}
+                            {{ table["name"] }}
+                        {% endif %}
+                    </button>
+                    <button onclick="removeFromWorkspace({{ table['name'] }})">X</button>
+                </div>
                 {% set ns.counter = ns.counter + 1 %}
             {% endfor %}
         </div>

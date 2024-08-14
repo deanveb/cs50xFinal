@@ -94,6 +94,8 @@ def register():
 def about():
     return render_template("about.html")
 
+# TODO: Check on workspace grid area
+
 @app.route("/import")
 def add():
     # https://stackoverflow.com/questions/65218421/send-data-returned-from-javascript-function-to-flask-backend
