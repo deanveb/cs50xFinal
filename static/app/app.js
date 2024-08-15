@@ -185,5 +185,25 @@ function toggle_visibility(index, table) {
 
 function loadTableForm(elemt) {
     let form = document.getElementById("filter-form");
-    
+    let headrow = elemt.firstChild.firstChild.children;
+    let applyBtn = document.getElementById("apply");
+    let count = 1;
+    for (i of headrow) {
+        let label = document.createElement("label");
+        label.setAttribute("for", i.innerHTML);
+        label.innerHTML = i.innerHTML + ":";
+
+        let input = document.createElement("input");
+        input.setAttribute("type", "text");
+        input.setAttribute("name", i.innerHTML);
+        input.setAttribute("placeholder", i.innerHTML);
+
+        label.className = "my-1";
+        input.className = "my-1";
+        
+        form.insertBefore(label, applyBtn);
+        form.insertBefore(document.createElement("br"), applyBtn);
+        form.insertBefore(input, applyBtn);
+        form.insertBefore(document.createElement("br"), applyBtn);
+    }
 }
