@@ -35,7 +35,6 @@ function removeFromWorkspace(table) {
     document.getElementById("properties").innerHTML = "";
 }
 
-
 function addTable(data, name) {
     if (localStorage.getItem("Saved" + name)) {
         window.alert("Cannot have more than 1 table");
@@ -187,7 +186,9 @@ function loadTableForm(elemt) {
     let form = document.getElementById("filter-form");
     let headrow = elemt.firstChild.firstChild.children;
     let applyBtn = document.getElementById("apply");
-    let count = 1;
+    
+    document.getElementById("table").setAttribute("value", elemt.id);
+
     for (i of headrow) {
         let label = document.createElement("label");
         label.setAttribute("for", i.innerHTML);

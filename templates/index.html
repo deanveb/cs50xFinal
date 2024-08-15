@@ -21,8 +21,9 @@
                 <button onclick="filter.showModal();">Filter</button>
             </div>
             <dialog id="filter">
-                <form onsubmit="loadTable()" id="filter-form">
+                <form action="/filter" id="filter-form" onsubmit="saving();">
                     <!--Stuff added here-->
+                    <input type="hidden" id="table" name="table">
                     <button type="submit" id="apply" class="mb-1">Apply</button>
                 </form>
                 <button onclick="filter.close()">Close</button>

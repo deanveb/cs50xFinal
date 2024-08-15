@@ -14,29 +14,35 @@ Session(app)
 
 db = SQL("sqlite:///app.db")
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
-    try:
-        name = session["name"]
-    except KeyError:
-        return redirect("/login")
-    # Load tables
-    db_name = []
-    tables = []
-    datas = []
-    for i in listdir("/home/deanv/Project/cs50/Final Project/database"):
-        subdb = SQL("sqlite:///"+ "database/" + i)
-        db_name.append(i)
-        tables.append(subdb.execute("SELECT name FROM sqlite_master WHERE type ='table'"))
-        for table in tables[-1]:
-            datas.append(subdb.execute("SELECT * FROM ?", table["name"]))
+    if request.method == "GET":
+        try:
+            name = session["name"]
+        except KeyError:
+            return redirect("/login")
+        # Load tables
+        db_name = []
+        tables = []
+        datas = []
+        for i in listdir("/home/deanv/Project/cs50/Final Project/database"):
+            subdb = SQL("sqlite:///"+ "database/" + i)
+            db_name.append(i)
+            tables.append(subdb.execute("SELECT name FROM sqlite_master WHERE type ='table'"))
+            for table in tables[-1]:
+                datas.append(subdb.execute("SELECT * FROM ?", table["name"]))
 
-    # display tables
-    return render_template("index.html",
-                           username=name,
-                           db_name=db_name,
-                           tables=tables,
-                           datas=datas)
+        # display tables
+        return render_template("index.html",
+                            username=name,
+                            db_name=db_name,
+                            tables=tables,
+                            datas=datas)
+    else:
+        # Construct query
+        # Execute query
+        # Reload table
+        return render_template("index.html")
 
 @app.route("/login", methods=["GET", "POST"]) 
 def login():
@@ -100,4 +106,3 @@ def about():
 def add():
     # https://stackoverflow.com/questions/65218421/send-data-returned-from-javascript-function-to-flask-backend
     return redirect("/")
-
