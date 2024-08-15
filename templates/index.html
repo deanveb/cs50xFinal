@@ -3,6 +3,7 @@
 {% block extra %}
     <link rel="stylesheet" href="/static/app/app.css">
     <script src="/static/app/app.js" ></script>
+    <script src="/static/app/filter.js"></script>
 {% endblock extra %}
 
 {% block body %}
@@ -17,8 +18,15 @@
             <h1 class="border-bottom">Inspector</h1>
             <div id="buttons">
                 <button onclick="ClearTable()">Clear</button>
-                <button>Filter</button>
+                <button onclick="filter.showModal();">Filter</button>
             </div>
+            <dialog id="filter">
+                <form onsubmit="loadTable()" id="filter-form">
+                    
+                    <button type="submit">Apply</button>
+                </form>
+                <button onclick="filter.close()">Close</button>
+            </dialog>
             <div id="properties"></div>
         </div>
     </main>

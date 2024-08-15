@@ -6,8 +6,9 @@ main {
 }
 
 #sidebar, #sidebar-properties {
-  height: 100vh;
   position: relative;
+  height: 100vh;
+  overflow-y: scroll;
   z-index: 10;
 }
 #sidebar h1, #sidebar-properties h1 {

@@ -30,6 +30,12 @@ function ClearTable() {
 	location.reload();
 }
 
+function removeFromWorkspace(table) {
+    document.getElementById(table.id).remove();
+    document.getElementById("properties").innerHTML = "";
+}
+
+
 function addTable(data, name) {
     if (localStorage.getItem("Saved" + name)) {
         window.alert("Cannot have more than 1 table");
@@ -126,6 +132,7 @@ function Selectable(elem) {
     elem.oncontextmenu = e => {
         e.preventDefault();
         if (current_inspector_id != elem.id) {
+            loadTableForm(elem)
             const properties = document.getElementById("properties");
             // Delete all properties' children
             properties.innerHTML = "";
@@ -176,6 +183,7 @@ function toggle_visibility(index, table) {
     }
 }
 
-function removeFromWorkspace(table) {
-    document.getElementById(table.id).remove();
+function loadTableForm(elemt) {
+    let form = document.getElementById("filter-form");
+    
 }

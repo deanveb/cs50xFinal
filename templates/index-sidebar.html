@@ -19,7 +19,7 @@
         <div class="card card-body">
             {% for table in tables[loop.index - 1] %}
                 <div>
-                    <button onclick="addTable({{ datas[ns.counter] }}, '{{ table['name'] }}');">
+                    <button onclick="addTable({{ datas[ns.counter] }}, '{{ table['name'] }}');" class="m-1">
                         {% if table["name"]|length > 16 %}
                             {{ table["name"][:14] + ".." }}
                         {% else %}
