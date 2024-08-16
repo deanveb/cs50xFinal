@@ -184,6 +184,13 @@ function toggle_visibility(index, table) {
 
 function loadTableForm(elemt) {
     let form = document.getElementById("filter-form");
+    // Clear children 
+    let children = form.children;
+    while (children[0].id != "apply") {
+        
+        form.removeChild(children[0]);
+        console.log(children[0]);
+    }
     let headrow = elemt.firstChild.firstChild.children;
     let applyBtn = document.getElementById("apply");
     
@@ -198,6 +205,7 @@ function loadTableForm(elemt) {
         input.setAttribute("type", "text");
         input.setAttribute("name", i.innerHTML);
         input.setAttribute("placeholder", i.innerHTML);
+        input.setAttribute("autocomplete", "off")
 
         label.className = "my-1";
         input.className = "my-1";

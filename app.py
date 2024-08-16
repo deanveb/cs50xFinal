@@ -14,35 +14,41 @@ Session(app)
 
 db = SQL("sqlite:///app.db")
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["GET"])
 def index():
-    if request.method == "GET":
-        try:
-            name = session["name"]
-        except KeyError:
-            return redirect("/login")
-        # Load tables
-        db_name = []
-        tables = []
-        datas = []
-        for i in listdir("/home/deanv/Project/cs50/Final Project/database"):
-            subdb = SQL("sqlite:///"+ "database/" + i)
-            db_name.append(i)
-            tables.append(subdb.execute("SELECT name FROM sqlite_master WHERE type ='table'"))
-            for table in tables[-1]:
-                datas.append(subdb.execute("SELECT * FROM ?", table["name"]))
-
-        # display tables
-        return render_template("index.html",
-                            username=name,
-                            db_name=db_name,
-                            tables=tables,
-                            datas=datas)
-    else:
-        # Construct query
-        # Execute query
-        # Reload table
-        return render_template("index.html")
+    try:
+        name = session["name"]
+    except KeyError:
+        return redirect("/login")
+    db_name = []
+    tables = []
+    datas = []
+    # Load tables
+    for i in listdir("/home/deanv/Project/cs50/Final Project/database"):
+        subdb = SQL("sqlite:///"+ "database/" + i)
+        db_name.append(i)
+        tables.append(subdb.execute("SELECT name FROM sqlite_master WHERE type ='table'"))
+        for table in tables[-1]:
+            datas.append(subdb.execute("SELECT * FROM ?", table["name"]))
+    # Construct query
+    # TODO: Prevent open filter menu 
+    if request.args.get("table"):
+        print((request.args))
+        query = f"SELECT * FROM {request.args.get('table')} WHERE "
+        for condition in request.args:
+            value = request.args.get(condition)
+            if value:
+                query += f"{condition}={request.args.get(condition)} "
+        print(query)
+    # Execute query
+    # Reload table
+    # display tables
+    return render_template("index.html",
+                        username=name,
+                        db_name=db_name,
+                        tables=tables,
+                        datas=datas)
+        
 
 @app.route("/login", methods=["GET", "POST"]) 
 def login():
