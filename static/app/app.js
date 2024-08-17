@@ -46,10 +46,9 @@ function addTable(data, name, db_name) {
     table.appendChild(tbody);
     // Singleton
     table.id = name;
-    table.style.cssText = "position:absolute;"
+    table.style.cssText = "position:absolute; -webkit-user-select: none;  -ms-user-select: none; user-select: none;";
     // Create table head
     let frow = document.createElement("tr");
-    frow.style.cssText = "-webkit-user-select: none; -ms-user-select: none; user-select: none; cursor:move;";
     frow.id = table.id + "header";
     for (let head in data[0]) {
         let th = document.createElement("th");
@@ -65,7 +64,6 @@ function addTable(data, name, db_name) {
         let tr = document.createElement("tr");
         for (let head in data[data_index]) {
             let td = document.createElement("td");
-            td.style.cssText = "-webkit-user-select: none;  -ms-user-select: none; user-select: none;"
             td.style.border = "1px solid black";   
             // To set max characters
             let content = data[data_index][head]
@@ -141,6 +139,13 @@ function Selectable(elem) {
             const properties = document.getElementById("properties");
             // Delete all properties' children
             properties.innerHTML = "";
+            // Delete all visibility related storage
+            let keys = Object.keys(localStorage);
+            for (key of keys) {
+                if (key.includes("vis")) {
+                    localStorage.removeItem(key);
+                }
+            }
             const div = document.createElement("div");
             div.style.cssText = "display: flex; flex-direction: column;";
             
@@ -156,7 +161,7 @@ function Selectable(elem) {
                 visibility.innerHTML = "hide";
                 visibility.id = "vbutton" + i.toString();
                 visibility.style.cssText = "margin: 5px;"
-                visibility.setAttribute("onclick", `toggle_visibility(${i}, ${elem.id});`)
+                visibility.setAttribute("onclick", `toggle_visibility(${i}, "${elem.id}");`)
                 section.appendChild(visibility);
 
                 div.appendChild(section);
@@ -168,23 +173,28 @@ function Selectable(elem) {
     }
 }
 
-function toggle_visibility(index, table) {
+function toggle_visibility(index, table_id) {
     let button = document.getElementById("vbutton" + index.toString());
-    if (button.innerHTML === "hide") {
-        rows = table.firstChild.children;
-        for (i of rows) {
-            let target = i.children.item(index);
-            target.style.display = "none";
-        }
-        button.innerHTML = "show";
-    }
-    else {
+    // I don't understand why would table.id change from history to History 
+    // Reason: string -> Object
+    let table = document.getElementById(table_id);
+    if (localStorage.getItem("vis" + `${table_id}:${index}`) === "show") {
         rows = table.firstChild.children;
         for (i of rows) {
             let target = i.children.item(index);
             target.style.display = "";
         }
         button.innerHTML = "hide";
+        localStorage.setItem("vis" + `${table_id}:${index}`, "hide")
+    }
+    else {
+        rows = table.firstChild.children;
+        for (i of rows) {
+            let target = i.children.item(index);
+            target.style.display = "none";
+        }
+        button.innerHTML = "show";
+        localStorage.setItem("vis" + `${table_id}:${index}`, "show")
     }
 }
 
