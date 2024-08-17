@@ -33,13 +33,25 @@ def index():
     # Construct query
     # TODO: Prevent open filter menu 
     if request.args.get("table"):
-        print((request.args))
+        subdb = SQL("sqlite:///"+ "database/" + request.args.get("db_name"))
         query = f"SELECT * FROM {request.args.get('table')} WHERE "
         for condition in request.args:
             value = request.args.get(condition)
-            if value:
+            if value and condition not in ["table", "db_name"]:
+                try:
+                    # Convert value to correct type 
+                    pass
+                except ValueError:
+                    # TODO: Show message
+                    return render_template("index.html",
+                                            username=name,
+                                            db_name=db_name,
+                                            tables=tables,
+                                            datas=datas)
                 query += f"{condition}={request.args.get(condition)} "
         print(query)
+        result = subdb.execute(query)
+        print(result)
     # Execute query
     # Reload table
     # display tables

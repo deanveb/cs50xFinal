@@ -35,7 +35,7 @@ function removeFromWorkspace(table) {
     document.getElementById("properties").innerHTML = "";
 }
 
-function addTable(data, name) {
+function addTable(data, name, db_name) {
     if (localStorage.getItem("Saved" + name)) {
         window.alert("Cannot have more than 1 table");
         return;
@@ -78,8 +78,14 @@ function addTable(data, name) {
     }
     
     // Make table selectable
-    Selectable(table);
+    Selectable(table, db_name);
     dragElement(table);
+    let input = document.createElement("input");
+    input.setAttribute("value", db_name);
+    input.setAttribute("type", "hidden");
+    input.setAttribute("name", "db_name");
+    input.className = "db_name";
+    table.appendChild(input);
     workspace.appendChild(table);
 }
 
@@ -131,7 +137,7 @@ function Selectable(elem) {
     elem.oncontextmenu = e => {
         e.preventDefault();
         if (current_inspector_id != elem.id) {
-            loadTableForm(elem)
+            loadTableForm(elem);
             const properties = document.getElementById("properties");
             // Delete all properties' children
             properties.innerHTML = "";
@@ -184,16 +190,20 @@ function toggle_visibility(index, table) {
 
 function loadTableForm(elemt) {
     let form = document.getElementById("filter-form");
-    // Clear children 
-    let children = form.children;
-    while (children[0].id != "apply") {
-        
-        form.removeChild(children[0]);
-        console.log(children[0]);
-    }
     let headrow = elemt.firstChild.firstChild.children;
     let applyBtn = document.getElementById("apply");
     
+    // Setting up table
+    // Clear children 
+    let children = form.children;
+    while (children[0].id != "apply") {
+        form.removeChild(children[0]);
+    }
+    let input = elemt.lastChild;
+    let form_input = document.getElementById("properties-db-name");
+    if (input.value != form_input.value) {
+        form_input.value = input.value;
+    }
     document.getElementById("table").setAttribute("value", elemt.id);
 
     for (i of headrow) {
