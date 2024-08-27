@@ -226,7 +226,6 @@ function loadTableForm(elemt) {
         input.setAttribute("name", i.innerHTML);
         input.setAttribute("placeholder", i.innerHTML);
         input.setAttribute("autocomplete", "off")
-
         label.className = "my-1";
         input.className = "my-1";
         

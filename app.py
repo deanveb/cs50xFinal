@@ -3,6 +3,7 @@ from flask import Flask, render_template, redirect, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from os import listdir
+from helper import is_type
 
 # export FLASK_DEBUG=1 && flask run
 
@@ -31,30 +32,31 @@ def index():
         for table in tables[-1]:
             datas.append(subdb.execute("SELECT * FROM ?", table["name"]))
     # Construct query
-    # TODO: Prevent open filter menu 
+    # TODO: Prevent open filter menu when not select anything
     if request.args.get("table"):
         subdb = SQL("sqlite:///"+ "database/" + request.args.get("db_name"))
         query = f"SELECT * FROM {request.args.get('table')} WHERE "
         for condition in request.args:
             value = request.args.get(condition)
+            # Exclude key table, db_name
             if value and condition not in ["table", "db_name"]:
-                try:
-                    # Convert value to correct type 
-                    pass
-                except ValueError:
-                    # TODO: Show message
-                    return render_template("index.html",
-                                            username=name,
-                                            db_name=db_name,
-                                            tables=tables,
-                                            datas=datas)
-                query += f"{condition}={request.args.get(condition)} "
-        print(query)
-        result = subdb.execute(query)
-        print(result)
+                # Convert value to correct datatype 
+                # FIXME: a bunch of try and except
+                # TODO: handle no input case
+                types = [int, float]
+                for i in types:
+                    if is_type(value, i):
+                        value = i(value)
+                        break
+                query += (f"{condition}='{request.args.get(condition)}' " 
+                          if type(value) == str 
+                          else f"{condition}={request.args.get(condition)} AND ")
+        print(query, request.args.get("db_name"))
     # Execute query
-    # Reload table
+        result = subdb.execute(query + ";")
+        print(result)
     # display tables
+    # TODO: update changed table
     return render_template("index.html",
                         username=name,
                         db_name=db_name,
